@@ -1,0 +1,12 @@
+package com.mycompany.manipulator;
+
+/**
+ *
+ * @author saj
+ */
+public class ClassForMethodDeleter {
+
+    public void method2() {
+        System.out.println("method2");
+    }
+}

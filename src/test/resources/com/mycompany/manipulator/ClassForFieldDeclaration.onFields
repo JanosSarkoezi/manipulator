@@ -1,0 +1,18 @@
+package com.mycompany.manipulator;
+
+import com.mycompany.manipulator.deleter.MyAnnotation;
+
+/**
+ *
+ * @author saj
+ */
+public class ClassForFieldDeclaration {
+
+    @Deprecated
+    private String value1;
+
+    public void method1() {
+        int value2;
+        int value3;
+    }
+}
