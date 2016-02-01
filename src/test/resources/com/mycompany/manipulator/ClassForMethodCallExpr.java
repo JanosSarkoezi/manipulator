@@ -4,7 +4,7 @@ package com.mycompany.manipulator;
  *
  * @author saj
  */
-public class ClassForMethodDeclarationExpr {
+public class ClassForMethodCallExpr {
 
     @Deprecated
     private String value1;

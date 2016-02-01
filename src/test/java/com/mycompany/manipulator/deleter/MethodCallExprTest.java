@@ -15,14 +15,14 @@ import org.junit.Test;
  *
  * @author saj
  */
-public class MethodReferenceExprTest {
+public class MethodCallExprTest {
 
     @Test
     public void notSpecified() throws ParseException, IOException {
         MethodCallExprPredicate fdp = new MethodCallExprPredicate();
 
         File source = new ResourceReader()
-                .read("com/mycompany/manipulator/ClassForMethodDeclarationExpr.java")
+                .read("com/mycompany/manipulator/ClassForMethodCallExpr.java")
                 .asFile();
 
         CompilationUnit cu = JavaParser.parse(source);
@@ -39,14 +39,14 @@ public class MethodReferenceExprTest {
                 forMethod("log");
 
         File source = new ResourceReader()
-                .read("com/mycompany/manipulator/ClassForMethodDeclarationExpr.java")
+                .read("com/mycompany/manipulator/ClassForMethodCallExpr.java")
                 .asFile();
 
         CompilationUnit cu = JavaParser.parse(source);
         cu.accept(new MethodReferenceExprDeleter(), mrep);
 
         String expectedFile = new ResourceReader()
-                .read("com/mycompany/manipulator/ClassForMethodDeclarationExpr.forMethod")
+                .read("com/mycompany/manipulator/ClassForMethodCallExpr.forMethod")
                 .asString();
 
         new Printer(expectedFile).replaceAll(" ", ".").print();
