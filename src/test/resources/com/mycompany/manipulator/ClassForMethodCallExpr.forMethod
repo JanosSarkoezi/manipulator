@@ -4,12 +4,15 @@ package com.mycompany.manipulator;
  *
  * @author saj
  */
-public class ClassForMethodDeclarationExpr {
+public class ClassForMethodCallExpr {
 
     @Deprecated
     private String value1;
 
     public void method1(String name, String address) {
+        if (true) {
+            System.out.println("test");
+        }
         method2(address);
     }
 
@@ -18,7 +21,7 @@ public class ClassForMethodDeclarationExpr {
     }
 
     private void sendMail(String address) {
-        // TODO: Send mail to address
+    // TODO: Send mail to address
     }
 
     private void log(String value) {

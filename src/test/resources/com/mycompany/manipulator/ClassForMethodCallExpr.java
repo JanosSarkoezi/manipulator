@@ -11,6 +11,10 @@ public class ClassForMethodCallExpr {
 
     public void method1(String name, String address) {
         log("Name: " + name);
+        if (true) {
+            log("logging in if statement");
+            System.out.println("test");
+        }
         method2(address);
     }
 

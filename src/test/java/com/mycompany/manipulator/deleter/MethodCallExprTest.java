@@ -27,7 +27,7 @@ public class MethodCallExprTest {
 
         CompilationUnit cu = JavaParser.parse(source);
         try {
-            cu.accept(new MethodReferenceExprDeleter(), fdp);
+            cu.accept(new MethodCallExprDeleter(), fdp);
             Assert.assertTrue("No IllegalStateException was thrown", false);
         } catch (IllegalStateException e) {
         }
@@ -43,15 +43,12 @@ public class MethodCallExprTest {
                 .asFile();
 
         CompilationUnit cu = JavaParser.parse(source);
-        cu.accept(new MethodReferenceExprDeleter(), mrep);
+        cu.accept(new MethodCallExprDeleter(), mrep);
 
         String expectedFile = new ResourceReader()
                 .read("com/mycompany/manipulator/ClassForMethodCallExpr.forMethod")
                 .asString();
 
-        new Printer(expectedFile).replaceAll(" ", ".").print();
-        new Printer(cu.toString()).replaceAll(" ", ".").print();
-
-//        Assert.assertEquals(expectedFile, cu.toString());
+        Assert.assertEquals(expectedFile, cu.toString());
     }
 }
