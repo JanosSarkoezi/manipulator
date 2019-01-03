@@ -22,7 +22,7 @@ public class MethodDeclarationHandler {
         boolean found = false;
 
         if (!methodNames.isEmpty()) {
-            found = methodNames.contains(md.getName());
+            found = methodNames.contains(md.getName().asString());
         }
 
         return found;

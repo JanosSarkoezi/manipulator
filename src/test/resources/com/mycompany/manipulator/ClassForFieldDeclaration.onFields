@@ -3,7 +3,6 @@ package com.mycompany.manipulator;
 import com.mycompany.manipulator.deleter.MyAnnotation;
 
 /**
- *
  * @author saj
  */
 public class ClassForFieldDeclaration {

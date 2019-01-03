@@ -13,8 +13,8 @@ public class IfStmtPredicate implements Predicate<IfStmt> {
 
     @Override
     public boolean evaluate(IfStmt ifStmt) {
-        boolean found = condition.equals(ifStmt.getCondition().toStringWithoutComments());
-        Node parentNode = ifStmt.getParentNode();
+        boolean found = condition.equals(ifStmt.getCondition().toString());
+        Node parentNode = ifStmt.getParentNode().get();
         return found;
     }
 

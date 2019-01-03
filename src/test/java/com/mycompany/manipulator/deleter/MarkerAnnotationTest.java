@@ -1,23 +1,33 @@
 package com.mycompany.manipulator.deleter;
 
-import com.mycompany.manipulator.helper.ResourceReader;
-import com.mycompany.manipulator.deleter.predicate.MarkerAnnotationPredicate;
 import com.github.javaparser.JavaParser;
-import com.github.javaparser.ParseException;
 import com.github.javaparser.ast.CompilationUnit;
-import java.io.File;
-import java.io.IOException;
+import com.github.javaparser.ast.Node;
+import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
+import com.github.javaparser.ast.body.FieldDeclaration;
+import com.github.javaparser.ast.body.MethodDeclaration;
+import com.github.javaparser.ast.body.Parameter;
+import com.github.javaparser.ast.expr.AnnotationExpr;
+import com.github.javaparser.ast.expr.MarkerAnnotationExpr;
+import com.mycompany.manipulator.deleter.predicate.MarkerAnnotationPredicate;
+import com.mycompany.manipulator.helper.ResourceReader;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
+
 /**
- *
  * @author saj
  */
 public class MarkerAnnotationTest {
 
     @Test
-    public void notSpecified() throws ParseException, IOException {
+    @Deprecated
+    public void notSpecified() throws IOException {
         MarkerAnnotationPredicate map = new MarkerAnnotationPredicate();
 
         File source = new ResourceReader()
@@ -33,7 +43,8 @@ public class MarkerAnnotationTest {
     }
 
     @Test
-    public void onMethod() throws ParseException, IOException {
+    @Deprecated
+    public void onMethod() throws IOException {
         MarkerAnnotationPredicate map = new MarkerAnnotationPredicate()
                 .forAnnotation("Deprecated")
                 .onMethod("method1");
@@ -53,7 +64,31 @@ public class MarkerAnnotationTest {
     }
 
     @Test
-    public void onMethodDuplicated() throws ParseException, IOException {
+    public void onMethod2() throws IOException {
+        File source = new ResourceReader()
+                .read("com/mycompany/manipulator/ClassForMarkeerAnnotation.java")
+                .asFile();
+
+        CompilationUnit cu = JavaParser.parse(source);
+        List<Node> nodes = cu.findAll(MethodDeclaration.class).stream()
+                .filter(mae -> mae.getName().getId().equals("method1"))
+                .map(md -> md.getAnnotations())
+                .flatMap(Collection::stream)
+                .filter(c -> c.getName().getId().equals("Deprecated"))
+                .collect(Collectors.toList());
+
+        nodes.forEach(Node::remove);
+
+        String expectedFile = new ResourceReader()
+                .read("com/mycompany/manipulator/ClassForMarkeerAnnotation.onMethod")
+                .asString();
+
+        Assert.assertEquals(expectedFile, cu.toString());
+    }
+
+    @Test
+    @Deprecated
+    public void onMethodDuplicated() throws IOException {
         MarkerAnnotationPredicate map = new MarkerAnnotationPredicate()
                 .forAnnotation("Deprecated")
                 .onMethod("method1")
@@ -74,7 +109,8 @@ public class MarkerAnnotationTest {
     }
 
     @Test
-    public void onMethodWithAnnotationTypo() throws ParseException, IOException {
+    @Deprecated
+    public void onMethodWithAnnotationTypo() throws IOException {
         MarkerAnnotationPredicate map = new MarkerAnnotationPredicate()
                 .forAnnotation("Deprecatedd")
                 .onMethod("method1");
@@ -94,7 +130,8 @@ public class MarkerAnnotationTest {
     }
 
     @Test
-    public void onMethodWithMethodTypo() throws ParseException, IOException {
+    @Deprecated
+    public void onMethodWithMethodTypo() throws IOException {
         MarkerAnnotationPredicate map = new MarkerAnnotationPredicate()
                 .forAnnotation("Deprecated")
                 .onMethod("methodd1");
@@ -114,7 +151,8 @@ public class MarkerAnnotationTest {
     }
 
     @Test
-    public void onClassOrInterface() throws ParseException, IOException {
+    @Deprecated
+    public void onClassOrInterface() throws IOException {
         MarkerAnnotationPredicate map = new MarkerAnnotationPredicate()
                 .forAnnotation("Deprecated")
                 .onClassOrInterface("ClassForMarkeerAnnotation");
@@ -134,7 +172,33 @@ public class MarkerAnnotationTest {
     }
 
     @Test
-    public void onClassOrInterfaceWithAnnotationTypo() throws ParseException, IOException {
+    public void onClassOrInterface2() throws IOException {
+        File source = new ResourceReader()
+                .read("com/mycompany/manipulator/ClassForMarkeerAnnotation.java")
+                .asFile();
+
+        CompilationUnit cu = JavaParser.parse(source);
+        List<Node> nodes = cu.findAll(ClassOrInterfaceDeclaration.class).stream()
+                .filter(mae -> mae.getName().getId().equals("ClassForMarkeerAnnotation"))
+                .map(md -> md.getChildNodes())
+                .flatMap(Collection::stream)
+                .filter(c -> c instanceof MarkerAnnotationExpr)
+                .map(c -> (MarkerAnnotationExpr) c)
+                .filter(c -> c.getName().getId().equals("Deprecated"))
+                .collect(Collectors.toList());
+
+        nodes.forEach(Node::remove);
+
+        String expectedFile = new ResourceReader()
+                .read("com/mycompany/manipulator/ClassForMarkeerAnnotation.onClassOrInterface")
+                .asString();
+
+        Assert.assertEquals(expectedFile, cu.toString());
+    }
+
+    @Test
+    @Deprecated
+    public void onClassOrInterfaceWithAnnotationTypo() throws IOException {
         MarkerAnnotationPredicate map = new MarkerAnnotationPredicate()
                 .forAnnotation("Deprecatedd")
                 .onClassOrInterface("ClassForMarkeerAnnotation");
@@ -154,7 +218,8 @@ public class MarkerAnnotationTest {
     }
 
     @Test
-    public void onClassOrInterfaceWithClassTypo() throws ParseException, IOException {
+    @Deprecated
+    public void onClassOrInterfaceWithClassTypo() throws IOException {
         MarkerAnnotationPredicate map = new MarkerAnnotationPredicate()
                 .forAnnotation("Deprecated")
                 .onClassOrInterface("ClassForMarkeerAnnotationn");
@@ -174,7 +239,8 @@ public class MarkerAnnotationTest {
     }
 
     @Test
-    public void onField() throws ParseException, IOException {
+    @Deprecated
+    public void onField() throws IOException {
         MarkerAnnotationPredicate map = new MarkerAnnotationPredicate()
                 .forAnnotation("Deprecated")
                 .onField("value");
@@ -194,7 +260,66 @@ public class MarkerAnnotationTest {
     }
 
     @Test
-    public void onFieldDuplicated() throws ParseException, IOException {
+    public void onField2() throws IOException {
+        File source = new ResourceReader()
+                .read("com/mycompany/manipulator/ClassForMarkeerAnnotation.java")
+                .asFile();
+
+        CompilationUnit cu = JavaParser.parse(source);
+        List<Node> nodes = cu.findAll(FieldDeclaration.class).stream()
+                .map(fd -> fd.getVariables())
+                .flatMap(Collection::stream)
+                .filter(vd -> vd.getName().getId().equals("value"))
+                .map(vd -> vd.getParentNode().get())
+                .filter(c -> c instanceof FieldDeclaration)
+                .map(c -> (FieldDeclaration) c)
+                .map(c -> c.getAnnotations())
+                .flatMap(Collection::stream)
+                .filter(c -> c.getName().getId().equals("Deprecated"))
+                .collect(Collectors.toList());
+
+        nodes.forEach(Node::remove);
+
+        String expectedFile = new ResourceReader()
+                .read("com/mycompany/manipulator/ClassForMarkeerAnnotation.onField")
+                .asString();
+
+        Assert.assertEquals(expectedFile, cu.toString());
+    }
+
+    @Test
+    public void bla() throws IOException {
+        File source = new ResourceReader()
+                .read("com/mycompany/manipulator/ClassForMarkeerAnnotation.java")
+                .asFile();
+
+        CompilationUnit cu = JavaParser.parse(source);
+        List<Node> nodes = cu.findAll(MarkerAnnotationExpr.class).stream()
+                .filter(c -> c.getName().getId().equals("Deprecated"))
+                .map(c -> c.getParentNode().get())
+                .filter(c -> c instanceof FieldDeclaration)
+                .map(c -> (FieldDeclaration) c)
+                .map(c -> c.getVariables())
+                .flatMap(Collection::stream)
+                .filter(vd -> vd.getName().getId().equals("value"))
+                .map(c -> c.getParentNode().get())
+                .map(c -> (FieldDeclaration) c)
+                .map(c -> c.getAnnotations())
+                .flatMap(Collection::stream)
+                .collect(Collectors.toList());
+
+        nodes.forEach(Node::remove);
+
+        String expectedFile = new ResourceReader()
+                .read("com/mycompany/manipulator/ClassForMarkeerAnnotation.onField")
+                .asString();
+
+        Assert.assertEquals(expectedFile, cu.toString());
+    }
+
+    @Test
+    @Deprecated
+    public void onFieldDuplicated() throws IOException {
         MarkerAnnotationPredicate map = new MarkerAnnotationPredicate()
                 .forAnnotation("Deprecated")
                 .onField("value")
@@ -215,7 +340,8 @@ public class MarkerAnnotationTest {
     }
 
     @Test
-    public void onFieldWithAnnotationTypo() throws ParseException, IOException {
+    @Deprecated
+    public void onFieldWithAnnotationTypo() throws IOException {
         MarkerAnnotationPredicate map = new MarkerAnnotationPredicate()
                 .forAnnotation("Deprecatedd")
                 .onField("value");
@@ -235,7 +361,8 @@ public class MarkerAnnotationTest {
     }
 
     @Test
-    public void onFieldWithFieldTypo() throws ParseException, IOException {
+    @Deprecated
+    public void onFieldWithFieldTypo() throws IOException {
         MarkerAnnotationPredicate map = new MarkerAnnotationPredicate()
                 .forAnnotation("Deprecated")
                 .onField("valuee");
@@ -255,7 +382,8 @@ public class MarkerAnnotationTest {
     }
 
     @Test
-    public void onParameter() throws ParseException, IOException {
+    @Deprecated
+    public void onParameter() throws IOException {
         MarkerAnnotationPredicate map = new MarkerAnnotationPredicate()
                 .forAnnotation("Deprecated")
                 .onParameter("value");
@@ -275,7 +403,34 @@ public class MarkerAnnotationTest {
     }
 
     @Test
-    public void onParameterDupplicated() throws ParseException, IOException {
+    public void onParameter2() throws IOException {
+        File source = new ResourceReader()
+                .read("com/mycompany/manipulator/ClassForMarkeerAnnotation.java")
+                .asFile();
+
+        CompilationUnit cu = JavaParser.parse(source);
+        List<Node> nodes = cu.findAll(MarkerAnnotationExpr.class).stream()
+                .filter(c -> c.getName().getId().equals("Deprecated"))
+                .map(c -> c.getParentNode().get())
+                .filter(c -> c instanceof Parameter)
+                .map(c -> (Parameter) c)
+                .filter(c -> c.getName().getId().equals("value"))
+                .map(c -> c.getAnnotations())
+                .flatMap(Collection::stream)
+                .collect(Collectors.toList());
+
+        nodes.forEach(Node::remove);
+
+        String expectedFile = new ResourceReader()
+                .read("com/mycompany/manipulator/ClassForMarkeerAnnotation.onParameter")
+                .asString();
+
+        Assert.assertEquals(expectedFile, cu.toString());
+    }
+
+    @Test
+    @Deprecated
+    public void onParameterDupplicated() throws IOException {
         MarkerAnnotationPredicate map = new MarkerAnnotationPredicate()
                 .forAnnotation("Deprecated")
                 .onParameter("value")
@@ -296,7 +451,8 @@ public class MarkerAnnotationTest {
     }
 
     @Test
-    public void onParameterithAnnotationTypo() throws ParseException, IOException {
+    @Deprecated
+    public void onParameterithAnnotationTypo() throws IOException {
         MarkerAnnotationPredicate map = new MarkerAnnotationPredicate()
                 .forAnnotation("Deprecatedd")
                 .onParameter("value");
@@ -316,7 +472,8 @@ public class MarkerAnnotationTest {
     }
 
     @Test
-    public void onParameterithParameterTypo() throws ParseException, IOException {
+    @Deprecated
+    public void onParameterithParameterTypo() throws IOException {
         MarkerAnnotationPredicate map = new MarkerAnnotationPredicate()
                 .forAnnotation("Deprecatedd")
                 .onParameter("valuee");

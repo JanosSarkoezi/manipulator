@@ -13,6 +13,7 @@ import com.github.javaparser.ast.expr.SingleMemberAnnotationExpr;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import javax.validation.constraints.NotNull;
 
 import org.apache.commons.collections4.Predicate;
@@ -35,11 +36,11 @@ public class SingleMemberAnnotationPredicate implements Predicate<SingleMemberAn
             throw new IllegalStateException("Annotation must not be null");
         }
 
-        if (!annotation.equals(smae.getName().getName())) {
+        if (!annotation.equals(smae.getName().asString())) {
             return found;
         }
 
-        Node parentNode = smae.getParentNode();
+        Node parentNode = smae.getParentNode().get();
         if (parentNode instanceof MethodDeclaration) {
             found = new MethodDeclarationHandler(methodNames, parentNode).handle();
         } else if (parentNode instanceof Parameter) {

@@ -17,7 +17,7 @@ public class MethodDeclarationPredicate implements Predicate<MethodDeclaration> 
 
     @Override
     public boolean evaluate(MethodDeclaration declarator) {
-        return methodNames.contains(declarator.getName());
+        return methodNames.contains(declarator.getName().getIdentifier());
     }
 
     public MethodDeclarationPredicate forMethod(@NotNull String methodName) {

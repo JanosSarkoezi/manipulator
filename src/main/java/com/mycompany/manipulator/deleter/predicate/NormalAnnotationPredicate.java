@@ -41,14 +41,14 @@ public class NormalAnnotationPredicate implements Predicate<NormalAnnotationExpr
             throw new IllegalStateException("annotation must be not null");
         }
 
-        if (!annotation.equals(nae.getName().getName())) {
+        if (!annotation.equals(nae.getName().getId())) {
             return found;
         }
 
         List<MemberValuePair> pairs = nae.getPairs();
         for (MemberValuePair pair : pairs) {
-            if (attributes.keySet().contains(pair.getName())) {
-                List<String> values = attributes.get(pair.getName());
+            if (attributes.keySet().contains(pair.getName().getId())) {
+                List<String> values = attributes.get(pair.getName().getId());
 
                 Expression expression = pair.getValue();
                 if (expression instanceof StringLiteralExpr) {
@@ -65,7 +65,7 @@ public class NormalAnnotationPredicate implements Predicate<NormalAnnotationExpr
             return found;
         }
 
-        Node parentNode = getRightParentNode(nae.getParentNode());
+        Node parentNode = getRightParentNode(nae.getParentNode().get());
         if (parentNode instanceof MethodDeclaration) {
             found = new MethodDeclarationHandler(methodNames, parentNode).handle();
         } else if (parentNode instanceof Parameter) {
@@ -86,7 +86,7 @@ public class NormalAnnotationPredicate implements Predicate<NormalAnnotationExpr
                 || node instanceof ClassOrInterfaceDeclaration) {
             return node;
         } else {
-            return getRightParentNode(node.getParentNode());
+            return getRightParentNode(node.getParentNode().get());
         }
     }
 

@@ -34,11 +34,11 @@ public class MarkerAnnotationPredicate implements Predicate<MarkerAnnotationExpr
             throw new IllegalStateException("annotation must be not null");
         }
 
-        if (!annotation.equals(mae.getName().getName())) {
+        if (!annotation.equals(mae.getName().asString())) {
             return found;
         }
 
-        Node parentNode = mae.getParentNode();
+        Node parentNode = mae.getParentNode().get();
         if (parentNode instanceof MethodDeclaration) {
             found = new MethodDeclarationHandler(methodNames, parentNode).handle();
         } else if (parentNode instanceof Parameter) {

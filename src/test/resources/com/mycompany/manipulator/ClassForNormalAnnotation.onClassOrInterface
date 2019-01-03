@@ -6,7 +6,6 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 
 /**
- *
  * @author saj
  */
 @NamedQueries({ @NamedQuery(name = "qwer", query = "qwer") })

@@ -18,6 +18,6 @@ public class ClassOrInterfaceDeclarationHandler {
     }
 
     public boolean handle() {
-        return classOrInterface != null && classOrInterface.equals(coid.getName());
+        return classOrInterface != null && classOrInterface.equals(coid.getName().getIdentifier());
     }
 }

@@ -2,7 +2,9 @@ package com.mycompany.manipulator.deleter.predicate.handler;
 
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.Parameter;
-import com.github.javaparser.ast.body.VariableDeclaratorId;
+import com.github.javaparser.ast.expr.MarkerAnnotationExpr;
+import com.github.javaparser.ast.expr.SimpleName;
+
 import java.util.List;
 
 /**
@@ -22,11 +24,11 @@ public class ParameterHandler {
     public boolean handle() {
         boolean found = false;
         if (!parameterNames.isEmpty()) {
-            List<Node> childrenNodes = p.getChildrenNodes();
+            List<Node> childrenNodes = p.getChildNodes();
             for (Node childrenNode : childrenNodes) {
-                if (childrenNode instanceof VariableDeclaratorId) {
-                    VariableDeclaratorId vdi = (VariableDeclaratorId) childrenNode;
-                    found = parameterNames.contains(vdi.getName());
+                if (childrenNode instanceof SimpleName) {
+                    SimpleName sn= (SimpleName) childrenNode;
+                    found = parameterNames.contains(sn.getIdentifier());
                 }
             }
         }

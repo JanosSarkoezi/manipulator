@@ -24,7 +24,7 @@ public class FieldDeclarationPredicate implements Predicate<FieldDeclaration> {
 
         List<VariableDeclarator> variables = fieldDeclaration.getVariables();
         for (VariableDeclarator variable : variables) {
-            if (fieldNames.contains(variable.getId().getName())) {
+            if (fieldNames.contains(variable.getName().asString())) {
                 found = true;
                 break;
             }

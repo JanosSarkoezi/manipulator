@@ -19,7 +19,7 @@ public class MethodCallExprPredicate implements Predicate<MethodCallExpr> {
             throw new IllegalStateException("methodName must be not null");
         }
 
-        return methodNames.contains(methodCallExpr.getName());
+        return methodNames.contains(methodCallExpr.getName().getIdentifier());
     }
 
     public MethodCallExprPredicate forMethod(@NotNull String methodName) {

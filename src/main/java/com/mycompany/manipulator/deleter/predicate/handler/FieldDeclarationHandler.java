@@ -26,7 +26,7 @@ public class FieldDeclarationHandler {
 
             List<VariableDeclarator> variables = fd.getVariables();
             for (VariableDeclarator variable : variables) {
-                if (fieldNames.contains(variable.getId().getName())) {
+                if (fieldNames.contains(variable.getName().asString())) {
                     found = true;
                     break;
                 }

@@ -1,7 +1,6 @@
 package com.mycompany.manipulator;
 
 /**
- *
  * @author saj
  */
 @Deprecated
