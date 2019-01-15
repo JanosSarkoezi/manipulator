@@ -31,7 +31,6 @@ public class SingleMemberAnnotationTest {
                 .filter(c -> c.getName().getId().equals("method1"))
                 .map(c -> c.getAnnotations())
                 .flatMap(Collection::stream)
-//                .filter(c -> c instanceof SingleMemberAnnotationExpr)
                 .filter(c -> c.getName().getId().equals("SuppressWarnings"))
                 .collect(Collectors.toList());
 
@@ -58,7 +57,6 @@ public class SingleMemberAnnotationTest {
                 .map(c -> (FieldDeclaration) c)
                 .map(c -> c.getAnnotations())
                 .flatMap(Collection::stream)
-//                .filter(c -> c instanceof SingleMemberAnnotationExpr)
                 .filter(c -> c.getName().getId().equals("SuppressWarnings"))
                 .collect(Collectors.toList());
 
@@ -82,7 +80,6 @@ public class SingleMemberAnnotationTest {
                 .filter(c -> c.getName().getId().equals("value"))
                 .map(c -> c.getAnnotations())
                 .flatMap(Collection::stream)
-//                .filter(c -> c instanceof SingleMemberAnnotationExpr)
                 .filter(c -> c.getName().getId().equals("SuppressWarnings"))
                 .collect(Collectors.toList());
 

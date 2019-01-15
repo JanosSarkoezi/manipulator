@@ -37,7 +37,6 @@ public class NormalAnnotationTest {
                 .filter(c -> c.getName().getId().equals("method1"))
                 .map(c -> c.getAnnotations())
                 .flatMap(Collection::stream)
-//                .filter(c -> c instanceof NormalAnnotationExpr)
                 .filter(c -> c.getName().getId().equals("Column"))
                 .collect(Collectors.toList());
 

@@ -23,21 +23,19 @@ public class NormalAnnotaionRemover {
     }
 
     public void remove() {
-        Predicate<NormalAnnotationExpr> naPreciate = c -> c.getName().getId().equals(annotation);
-        Predicate<MemberValuePair> mvPredicate = c -> c.getName().getId().equals(key)
-                && c.getValue().asStringLiteralExpr().getValue().equals(value);
-        Predicate<MethodDeclaration> mdPreciate = c -> c.getName().getId().equals(methodName);
+        Predicate<MemberValuePair> keyPredicate = c -> c.getName().getId().equals(key);
+        Predicate<MemberValuePair> valuePredicate = c -> c.getValue().asStringLiteralExpr().getValue().equals(value);
 
         List<Node> nodes = cu.findAll(MethodDeclaration.class).stream()
-                .filter(mdPreciate)
+                .filter(c -> c.getName().getId().equals(methodName))
                 .map(MethodDeclaration::getChildNodes)
                 .flatMap(Collection::stream)
                 .filter(c -> c instanceof NormalAnnotationExpr)
                 .map(c -> (NormalAnnotationExpr) c)
-                .filter(naPreciate)
+                .filter(c -> c.getName().getId().equals(annotation))
                 .map(NormalAnnotationExpr::getPairs)
                 .flatMap(Collection::stream)
-                .filter(mvPredicate)
+                .filter(keyPredicate.and(valuePredicate))
                 .map(c -> c.getParentNode().get())
                 .collect(Collectors.toList());
 
