@@ -43,7 +43,7 @@ public class NormalAnnotationTest {
         nodes.forEach(Node::remove);
 
         String expectedFile = new ResourceReader()
-                .read("com/mycompany/manipulator/ClassForNormalAnnotation.onMethod")
+                .read("com/mycompany/manipulator/ClassForNormalAnnotation.onMethod1")
                 .asString();
 
         Assert.assertEquals(expectedFile, cu.toString());
@@ -71,7 +71,7 @@ public class NormalAnnotationTest {
         nodes.forEach(Node::remove);
 
         String expectedFile = new ResourceReader()
-                .read("com/mycompany/manipulator/ClassForNormalAnnotation.onMethod")
+                .read("com/mycompany/manipulator/ClassForNormalAnnotation.onMethod1")
                 .asString();
 
         Assert.assertEquals(expectedFile, cu.toString());

@@ -23,6 +23,7 @@ public class ClassForNormalAnnotation {
         System.out.println("method1");
     }
 
+    @Column(nullable = false)
     public void method2(@MyAnnotation(value = "42") String value) {
         System.out.println("method2");
     }
