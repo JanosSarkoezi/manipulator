@@ -106,15 +106,8 @@ public class NormalAnnotationAttributeMediator implements AttributeMediator {
 
         @Override
         public boolean test(MemberValuePair memberValuePair) {
-            boolean result;
-
-            if (memberValuePair.getValue().isStringLiteralExpr()) {
-                result = memberValuePair.getValue().asStringLiteralExpr().getValue().equals(value);
-            } else {
-                result = memberValuePair.getValue().asBooleanLiteralExpr().getValue() == Boolean.parseBoolean(value);
-            }
-
-            return result;
+            String memberValue = memberValuePair.getValue().toString().replaceAll("\"", "");
+            return value.equals(memberValue);
         }
     }
 
