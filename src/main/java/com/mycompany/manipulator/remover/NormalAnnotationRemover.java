@@ -71,6 +71,14 @@ import java.util.stream.Collectors;
  * </pre>
  * </li></ul>
  * Das Ergebnis ist dann in dem Objekt {@code cu} zu finden.
+ * <p>
+ * <p>
+ * Die Funktionalität kann mit der folgenden Grammatik beschrieben werden:
+ * <pre>
+ *     NormalAnnotation ::= forAnnotation withAttribute? (onMetod | onParameter | onField | onClass)?
+ * </pre>
+ * Diese Grammatik kann visuell auf der Seite <a href="http://www.bottlecaps.de/rr/ui">http://www.bottlecaps.de/rr/ui</a>
+ * betrachtet werden.
  *
  * @author saj
  */

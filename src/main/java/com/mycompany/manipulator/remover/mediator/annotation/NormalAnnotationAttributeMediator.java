@@ -128,10 +128,10 @@ public class NormalAnnotationAttributeMediator implements AttributeMediator {
         @Override
         public boolean test(Node node) {
             if (node instanceof ClassOrInterfaceDeclaration) {
-                ClassOrInterfaceDeclaration declaration = (ClassOrInterfaceDeclaration) node;
                 return ((ClassOrInterfaceDeclaration) node).getName().getId().equals(classOrInterfaceName);
             } else {
-                return test(node.getParentNode().get());
+                Node parent = node.getParentNode().orElse(null);
+                return test(parent);
             }
         }
     }
