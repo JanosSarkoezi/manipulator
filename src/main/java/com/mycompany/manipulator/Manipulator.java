@@ -7,5 +7,5 @@ import java.io.IOException;
  * @author saj
  */
 public interface Manipulator {
-    public String manipulate(String fileName) throws ParseException, IOException;
+  public String manipulate(String fileName) throws ParseException, IOException;
 }

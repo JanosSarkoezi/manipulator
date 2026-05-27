@@ -1,0 +1,8 @@
+#!/bin/sh
+echo "Running mvn spotless:check..."
+mvn spotless:check
+if [ $? -ne 0 ]; then
+    echo "Error: Code style violation."
+    echo "Run 'mvn spotless:apply' or 'mvn clean install' to fix."
+    exit 1
+fi
